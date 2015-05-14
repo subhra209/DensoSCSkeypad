@@ -161,7 +161,7 @@ void main(void)
 	TMR1_init(tickPeriod,0);		//initialize timer1
 
 	LCD_init();
-
+	LinearKeyPad_init();
 
 #ifdef TEST_LCD
 	for(i = 0 ; i< 26; i++)
@@ -219,6 +219,7 @@ void main(void)
 		if( keypadUpdateCount >= 8 )
 		{
 			KEYPAD_task();
+			LinearKeyPad_scan();
 			keypadUpdateCount = 0;
 		}
 

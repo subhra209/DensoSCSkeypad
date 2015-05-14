@@ -11,46 +11,52 @@
 typedef struct _UI
 {
 	UI_STATE state;
-	UI_STATE prevState;
 	UINT8 buffer[MAX_INPUT_CHARS+1];
 	UINT8 bufferIndex;
-	UINT8 prevcode;
-	UINT8 keyIndex;
 	UINT8 input[MAX_INPUT_CHARS+1];
 	UINT8 inputIndex;
 }UI;
 
 
 
+/*
+*------------------------------------------------------------------------------
+* Private Constants (static)
+*------------------------------------------------------------------------------
+*/
 
 
 const rom UINT8 *UI_MSG[]=
 		{"		DENSO",
 		"PASSWORD:"
+		"SETTING:",
+		"STAGING TIME",
+		"CLOCK TIME",
 		"PLANT NO:",
 		"TRUCK NO:",
-		"HOUR:",
-		"MIN:"
+		"TIME(HHMM):"
 
 		};
 
-
-
-
-const rom UINT8 keyMap[MAX_KEY] = { '1','2','3','\x0A',
-									 '4','5','6','\x0B',
-									 '7','8','9','\x08',
-									 '*','0','#','\x0C' } ;
+const rom UINT8 keyMap[MAX_KEY] = { '1','2','3','\x0A',					//	1		2		3			logon
+									 '4','5','6','\x0B',				//	4		5		6			logoff
+									 '7','8','9','\x08',				//	7		8		9			backspace
+									 '*','0','#','\x0C' } ;				//	clock	0		staging		enter
 
 
 
 
 #pragma idata UI_DATA
-UI ui = {0,0,{0},0,0xFF,0,0};
+UI ui = {0};
 
 //#pragma idata
 
 
+/*
+*------------------------------------------------------------------------------
+* Public Functions
+*------------------------------------------------------------------------------
+*/
 
 UINT8 mapKey(UINT8 scancode, UINT8 duration);
 UINT8 updateValue(void);
@@ -58,7 +64,6 @@ void clearUIBuffer(void);
 void putUImsg(UINT8 msgIndex);
 void setUImsg( UINT8 msgIndex );
 void clearUIInput(void);
-void showUImsg( UINT8* msg );
 
 
 void UI_init(void)
@@ -130,7 +135,7 @@ void UI_task(void)
 
 		}
 		//for pressing ENTER
-		else if( keypressed == '\x0A')
+		else if( keypressed == '\x0C')
 		{
 			BOOL result = FALSE;
 			ui.buffer[ui.bufferIndex] = '\0';
@@ -141,13 +146,13 @@ void UI_task(void)
 	
 			if( result == TRUE )
 			{
-				//msg show for enter PLANT_NO
-				setUImsg(UI_MSG_PLANT_NO);
+				//msg show for enter type of SETTING
+				setUImsg(UI_MSG_SETTING);
 				//clear ui_buffer
 				clearUIBuffer();
 
-				//state change to PLNAT
-				ui.state = UI_PLANT;
+				//state change to SETTING
+				ui.state = UI_SETTING;
 			}
 			else
 			{
@@ -171,6 +176,52 @@ void UI_task(void)
 			
 		break;	
 
+		case UI_SETTING:
+
+			switch(keypressed)
+			{
+				//for pressing CLOCK_SETTING
+				case '*':
+					putUImsg(UI_MSG_CLOCK_TIME);
+					ui.input[ui.inputIndex++] = '*';
+		
+				break;
+				//for pressing STAGING_SETTING
+				case '#':
+					putUImsg(UI_MSG_STAGING_TIME);
+					ui.input[ui.inputIndex++] = '#';
+	
+				break;
+				//for pressing LOGOFF
+				case '\x0B':
+					setUImsg(UI_MSG_IDEAL);
+					//clear all buffer
+					clearUIBuffer();
+					clearUIInput();
+					//state change to IDEAL
+					ui.state = UI_IDEAL;
+
+				break;
+				//for pressing ENTER
+				case '\x0C':
+					if(ui.input[0] == '*')
+					{
+						setUImsg(UI_MSG_TIME);
+						ui.state = UI_TIME;
+					}
+					else if (ui.input[0] = '#')
+					{
+						setUImsg(UI_MSG_PLANT_NO);
+						//state change to PLNAT
+						ui.state = UI_PLANT;
+					}
+				break;
+				default:
+				break;
+						
+			}
+		break;
+
 		case UI_PLANT:
 		//for pressing Backspace
 		if( keypressed == '\x08')
@@ -181,8 +232,17 @@ void UI_task(void)
 
 				//decrement both buffer's inddex value
 				ui.bufferIndex--;
-				if( ui.inputIndex > 0 )
-					ui.inputIndex--;
+			}
+			else
+			{
+				//msg show for enter type of SETTING
+				setUImsg(UI_MSG_SETTING);
+				//clear all buffer
+				clearUIBuffer();
+				clearUIInput();
+
+				//state change to SETTING
+				ui.state = UI_SETTING;
 			}
 
 		}
@@ -201,29 +261,15 @@ void UI_task(void)
 
 			}
 		}
-		//for pressing LOFOFF
-		else if( keypressed == '\x0B')
-		{
-			
-			setUImsg(UI_MSG_IDEAL);
-			//clear all buffer
-			clearUIBuffer();
-			clearUIInput();
-			//state change to IDEAL
-			ui.state = UI_IDEAL;		
-		}
 		
 		else
 		{
 			//store plant value in ui_buffer
-			ui.buffer[ui.bufferIndex] = keypressed;
+			ui.buffer[ui.bufferIndex++] = keypressed;
 			//show the plant value in LCD
 			LCD_putChar(ui.buffer[ui.bufferIndex]);
 			//store plant value in input buffer
-			ui.input[ui.inputIndex] = keypressed;
-			//increment both buffer index
-			ui.inputIndex++;
-			ui.bufferIndex++;
+			ui.input[ui.inputIndex++] = keypressed;
 
 		}
 
@@ -246,7 +292,7 @@ void UI_task(void)
 				setUImsg(UI_MSG_PLANT_NO);
 				//clear all buffer
 				clearUIBuffer();
-				clearUIInput();
+				ui.inputIndex = 1;
 				//state change to PLNAT
 				ui.state = UI_PLANT;
 			}
@@ -260,12 +306,12 @@ void UI_task(void)
 			{
 				//store truck_no in input buffer
 				updateValue();
-				//msg show for enter HOUR
-				setUImsg(UI_MSG_HOUR);
+				//msg show for enter TIME
+				setUImsg(UI_MSG_TIME);
 				//clear ui_buffer
 				clearUIBuffer();
-				//state change to HOUR
-				ui.state = UI_HOUR;
+				//state change to TIME
+				ui.state = UI_TIME;
 				
 
 			}
@@ -282,7 +328,7 @@ void UI_task(void)
 		
 		break;
 
-		case UI_HOUR:
+		case UI_TIME:
 		if( keypressed == '\x08')
 		{
 			if(ui.bufferIndex > 0 )
@@ -292,79 +338,61 @@ void UI_task(void)
 			}
 			else
 			{
-				setUImsg(UI_MSG_TRUCK_NO);
-				ui.inputIndex = 1;
-				clearUIBuffer();
-				ui.state = UI_TRUCK;
+				if(ui.input[0] == '*')
+				{
+					//msg show for enter type of SETTING
+					setUImsg(UI_MSG_SETTING);
+					//clear all buffer
+					clearUIBuffer();
+					clearUIInput();
+	
+					//state change to SETTING
+					ui.state = UI_SETTING;
+				}
+				else if(ui.input[0] == '#')
+				{
+				//msg show for enter TRUCK_NO				
+					setUImsg(UI_MSG_TRUCK_NO);
+					//clear all buffer
+					clearUIBuffer();
+					ui.inputIndex = 2;
+					//state change to TRUCK
+					ui.state = UI_TRUCK;
+
+				}
 			}
 		}
 		else if( keypressed == '\x0C')
 		{
-			if(ui.bufferIndex > 0)
-			{
-				setUImsg(UI_MSG_MIN);
-				//store HOUR in input buffer
-				updateValue();
-				clearUIBuffer();
-				ui.state = UI_MIN;
-				
+				if(ui.input[0] == '*')
+				{
+					APP_updateRTC(ui.buffer);
 
-			}
+				}
+				else if(ui.input[0] == '#')
+				{
+					APP_updateStaging(ui.input);
 
-		}
-		else
-		{
-			ui.buffer[ui.bufferIndex] = keypressed;
-			LCD_putChar(ui.buffer[ui.bufferIndex]);
-			ui.bufferIndex++;
+				}
 
-		}
-
-		break;
-
-
-
-		case UI_MIN:
-
-		if( keypressed == '\x08')
-		{
-			if(ui.bufferIndex > 0 )
-			{
-				LCD_putChar(keypressed);
-				ui.bufferIndex--;
-			}
-			else
-			{
-				setUImsg(UI_MSG_HOUR);
-				ui.inputIndex = 3;
-				clearUIBuffer();
-				ui.state = UI_HOUR;
-			}
-		}
-		else if( keypressed == '\x0C')
-		{
-			if(ui.bufferIndex > 0)
-			{
-				//store MIN in input buffer
-				updateValue();
-				ui.input[ui.inputIndex] = '\0' ;
-				//update whole data in app_buffer
-				APP_updateData( ui.input);
-				setUImsg(UI_MSG_PLANT_NO);
+				//msg show for enter type of SETTING
+				setUImsg(UI_MSG_SETTING);
 				//clear all buffer
 				clearUIBuffer();
 				clearUIInput();
-				ui.state = UI_PLANT;	
-			}
+
+				//state change to SETTING
+				ui.state = UI_SETTING;
 
 		}
 		else
 		{
-			ui.buffer[ui.bufferIndex] = keypressed;
+			ui.buffer[ui.bufferIndex++] = keypressed;
+			ui.input[ui.inputIndex++]    = keypressed;
 			LCD_putChar(ui.buffer[ui.bufferIndex]);
-			ui.bufferIndex++;
 
 		}
+
 		break;
 		
 		default:
@@ -377,6 +405,20 @@ void UI_task(void)
 
 }
 
+/*
+*------------------------------------------------------------------------------
+* UINT8 mapKey(UINT8 scancode, UINT8 duration);
+
+* Summary	: Application specifc main routine. Initializes all port and
+*			: pheriperal and put the main task into an infinite loop.
+*
+* Input		: scancode - posiition of key which is pressed
+*			: duration - time duration of pressed key
+
+* Output	:0xFF -      for igonre the key which presssed
+*			:scanded key -value of pressed key from mapkey
+*------------------------------------------------------------------------------
+*/
 
 UINT8 mapKey(UINT8 scancode, UINT8 duration)
 {
@@ -394,7 +436,7 @@ UINT8 mapKey(UINT8 scancode, UINT8 duration)
 		break;
 
 		case UI_PASSWORD:
-
+		keypressed = keyMap[scancode];
 		// max data given is 5 number
 		if( ui.bufferIndex >= 5)
 		{
@@ -408,17 +450,28 @@ UINT8 mapKey(UINT8 scancode, UINT8 duration)
 
 		break;
 
+		case UI_SETTING:
+		keypressed = keyMap[scancode];
+
+			if((keypressed != '\x0B')&& (keypressed != '\x08') && (keypressed != '\x0C') && (keypressed != '*')  && (keypressed != '#') )
+				keypressed = 0xFF;
+		break;
+
 		case UI_PLANT:
 
 		keypressed = keyMap[scancode];
 		//max input is two digit
-		if( ui.bufferIndex >= 1)
+		if(ui.bufferIndex > 1)
+		{
+			keypressed = 0xFF;			
+		}
+		if( ui.bufferIndex == 1)
 		{
 			if((keypressed != '\x08') && (keypressed != '\x0C') )
 			keypressed = 0xFF;
 		}
 		else
-			if((keypressed != '\x0B')&& (keypressed != '1') && (keypressed != '2') )
+			if((keypressed != '\x08')&& (keypressed != '1') && (keypressed != '2') )
 				keypressed = 0xFF;
 		break;
 
@@ -427,7 +480,11 @@ UINT8 mapKey(UINT8 scancode, UINT8 duration)
 
 		keypressed = keyMap[scancode];
 		//max input is two digit
-		if( ui.bufferIndex >= 2)
+		if(ui.bufferIndex > 2)
+		{
+			keypressed = 0xFF;			
+		}
+		else if( ui.bufferIndex == 2)
 		{
 			if((keypressed != '\x08') && (keypressed != '\x0C') )
 			keypressed = 0xFF;
@@ -438,39 +495,26 @@ UINT8 mapKey(UINT8 scancode, UINT8 duration)
 	
 		break;
 
-		case UI_HOUR:
-
-		keypressed = keyMap[scancode];
-
-		keypressed = keyMap[scancode];
-		//max input is two digit
-		if( ui.bufferIndex >= 2)
-		{
-			if((keypressed != '\x08') && (keypressed != '\x0C') )
-			keypressed = 0xFF;
-		}
-		else
-			if( keypressed == '*' || keypressed == '#' ||  keypressed == '\x0A' || keypressed == '\x0B' )
-				keypressed = 0xFF;
-	
-		break;
-
-
-
-		case UI_MIN:
+		case UI_TIME:
 
 		keypressed = keyMap[scancode];
 		//max input is two digit
-		if( ui.bufferIndex >= 2)
+		if(ui.bufferIndex > 4)
+		{
+			keypressed = 0xFF;			
+		}
+		else if( ui.bufferIndex == 4)
 		{
 			if((keypressed != '\x08') && (keypressed != '\x0C') )
 			keypressed = 0xFF;
 		}
-		else
-			if( keypressed == '*' || keypressed == '#' ||  keypressed == '\x0A' || keypressed == '\x0B' )
+		
+		else 
+				if( keypressed == '*' || keypressed == '#' ||  keypressed == '\x0A' || keypressed == '\x0B' || (keypressed == '\x0C') )
 				keypressed = 0xFF;
 	
 		break;
+
 
 		default:
 		break;
@@ -480,7 +524,19 @@ UINT8 mapKey(UINT8 scancode, UINT8 duration)
 	return keypressed;
 }
 
+/*
+*------------------------------------------------------------------------------
+* UINT8 updateValue(void);
 
+* Summary	:
+*			:
+*
+* Input		: None
+*
+* Output	: None
+*
+*------------------------------------------------------------------------------
+*/
 UINT8 updateValue(void)
 {
 	UINT8 i,value = 0;
@@ -506,15 +562,38 @@ UINT8 updateValue(void)
 	return value;
 }
 
+/*
+*------------------------------------------------------------------------------
+* void clearUIBuffer(void);
+
+* Summary	: fill the input buffer with zero
+*			: and index point to its first element
+*
+* Input		: None
+*
+* Output	: None
+*
+*------------------------------------------------------------------------------
+*/
 void clearUIBuffer(void)
 {
 	memset(ui.buffer,0, MAX_INPUT_CHARS);
 	ui.bufferIndex = 0;
-	ui.keyIndex = 0;
-	ui.prevcode = 0xFF;
 
 }
+/*
+*------------------------------------------------------------------------------
+* void clearUIInput(void);
 
+* Summary	: fill the input buffer with zero
+*			: and index point to its first element
+*
+* Input		: None
+*
+* Output	: None
+*
+*------------------------------------------------------------------------------
+*/
 
 void clearUIInput(void)
 {
@@ -523,24 +602,19 @@ void clearUIInput(void)
 }
 
 
+/*
+*------------------------------------------------------------------------------
+* void setUImsg( UINT8 msgIndex );
 
-
-void showUImsg( UINT8* msg )
-{
-	UINT8 i;
-
-	
-	LCD_clear();
-
-	i = 0;
-	while( msg[i] != '\0')
-	{
-		LCD_putChar(msg[i]);
-		i++;
-	}
-}
-
-
+* Summary	:read msg form specific location and display 
+*			:it on LCD
+*
+* Input		: msg index which point to that msg present in rom
+*
+* Output	: None
+*
+*------------------------------------------------------------------------------
+*/
 void setUImsg( UINT8 msgIndex )
 {
 	UINT8 i;
@@ -559,6 +633,19 @@ void setUImsg( UINT8 msgIndex )
 	}
 }
 
+/*
+*------------------------------------------------------------------------------
+* void putUImsg(UINT8 msgIndex)
+
+* Summary	: read msg form specific location and display
+*			:along with priviously which displayed in lcd		
+*
+* Input		: msg index which point to that msg present in rom
+*
+* Output	: none
+*
+*------------------------------------------------------------------------------
+*/
 
 void putUImsg(UINT8 msgIndex)
 {
