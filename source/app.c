@@ -19,7 +19,9 @@ UINT8 APP_Truckno( UINT32 data);
 enum 
 {
 	IDLE = 0,
-	ACTIVE = 1
+	GREEN = 1,
+	YELLOW = 2,
+	RED = 3
 };
 
 typedef struct _APP
@@ -36,18 +38,9 @@ typedef struct _APP
 
 
 }APP;
-/*
-typedef struct _APP
-{
-	UINT8 password[5];
-	UINT32 rtcValue;
-	UINT8 timeBuffer[6];
-	UINT8 truckFlag[MAX_TRUCKS];
-	UINT8 truckNo;
-	UINT8 plantNo;
 
-}APP;
-*/
+
+
 UINT8 txBuffer[7] = {0};
 #pragma idata APP_DATA
 APP app = {0};
@@ -58,6 +51,7 @@ APP app = {0};
 void APP_init(void)
 {
 
+	UINT8 i;
 	app.password[0] = '1';
 	app.password[1] = '0';
 	app.password[2] = '0';
@@ -69,21 +63,37 @@ void APP_init(void)
 	LAMP_RED 	= FALSE;
 	BUZZER  	= FALSE;
 	app.state = IDLE;
-	WriteRtcTimeAndDate(writeTimeDateBuffer);
+	
+	ReadRtcTimeAndDate(readTimeDateBuffer);
+
+	APP_conversion();
+	//calculate and store the rtc value in the form of SEC
+	app.rtcValue = (UINT32) ( ( ( app.timeBuffer[3]- '0' )* 10 )+ ( app.timeBuffer[2] - '0') )* 60 + ( ( ( app.timeBuffer[1]- '0' )* 10 )+ ( app.timeBuffer[0] - '0') ) ;
+	app.rtcValue += (UINT32) ( ( ( app.timeBuffer[5]- '0' )* 10 )+ ( app.timeBuffer[4] - '0') ) * 3600;	
+
+	for( i = 0 ; i < 16 ; i++)
+	{
+		if(( app.rtcValue >= ( STAGING_TIME[0][i] + 600 ) ))
+		{
+			app.truckFlag[0][i] = TRUE;
+		}
+	}
+
+	for( i = 0 ; i < 6 ; i++)
+	{
+		if(( app.rtcValue >= ( STAGING_TIME[1][i] + 600 ) ))
+		{
+			app.truckFlag[1][i] = TRUE;
+		}
+	}
 }
 
 void APP_task(void)
 {
 	UINT8 i;
-		ReadRtcTimeAndDate(readTimeDateBuffer);
+		ReadRtcTimeAndDate(readTimeDateBuffer);	//Read RTC data and store it in buffer
 
-	switch(app.state)
-	{
-		case IDLE:
-		
 
-		//Read RTC data and store it in buffer
-		ReadRtcTimeAndDate(readTimeDateBuffer); 
 #if defined (RTC_DATA_ON_UART)
 				for(i = 0; i < 7; i++)			
 				{
@@ -94,8 +104,14 @@ void APP_task(void)
 #endif
 		APP_conversion();
 		//calculate and store the rtc value in the form of SEC
-		app.rtcValue = (UINT32) ( ( ( app.timeBuffer[3]- '0' )* 10 )+ ( app.timeBuffer[2] - '0') )* 60 + ( ( ( app.timeBuffer[1]- '0' )* 10 )+ ( app.timeBuffer[0] - '0') ) ;
+		app.rtcValue = (UINT32) ( ( ( app.timeBuffer[3]- '0' )* 10 )+ ( app.timeBuffer[2] - '0') )* 60 
+						+ ( ( ( app.timeBuffer[1]- '0' )* 10 )+ ( app.timeBuffer[0] - '0') ) ;
 		app.rtcValue += (UINT32) ( ( ( app.timeBuffer[5]- '0' )* 10 )+ ( app.timeBuffer[4] - '0') ) * 3600;	
+
+
+	switch(app.state)
+	{
+		case IDLE:
 	
 		for( i = 0 ; i < 16 ; i++)
 		{
@@ -111,34 +127,11 @@ void APP_task(void)
 					BUZZER  	= FALSE;
 					app.plant = 0;
 					app.truck = i;
-					app.state = ACTIVE;
+					app.state = GREEN;
 					break;
 		
 				}
-				else if( ( app.rtcValue >= ( STAGING_TIME[0][i] ) ) 
-						&& ( app.rtcValue < ( STAGING_TIME[0][i] + 600 ) ))
-				{
-					LAMP_GREEN  = FALSE;
-					LAMP_YELLOW = TRUE;
-					LAMP_RED 	= FALSE;
-					BUZZER  	= FALSE;
-					app.plant = 0;
-					app.truck = i;
-					app.state = ACTIVE;
-					break;
-				}
-				else if(( app.rtcValue >= ( STAGING_TIME[0][i] + 600 ) ))
-				{
-					LAMP_GREEN  = FALSE;
-					LAMP_YELLOW = FALSE;
-					LAMP_RED 	= TRUE;
-					BUZZER  	= TRUE;
-					app.truckFlag[0][i]  = TRUE;
-					app.plant = 0;
-					app.truck = i;
-					app.state = ACTIVE;
-					break;
-				}
+			
 			}
 			else
 				continue;
@@ -157,154 +150,86 @@ void APP_task(void)
 					BUZZER  	= FALSE;
 					app.plant = 0;
 					app.truck = i;
-					app.state = ACTIVE;
+					app.state = GREEN;
 					break;
 				}
-				else if( ( app.rtcValue >= ( STAGING_TIME[1][i] ) ) 
-						&& ( app.rtcValue < ( STAGING_TIME[1][i] + 600 ) ))
-				{
-					LAMP_GREEN  = FALSE;
-					LAMP_YELLOW = TRUE;
-					LAMP_RED 	= FALSE;
-					BUZZER  	= FALSE;
-					app.plant = 0;
-					app.truck = i;
-					app.state = ACTIVE;
-					break;
-				}
-				else if(( app.rtcValue >= ( STAGING_TIME[1][i] + 600 ) ) )
-				{
-					LAMP_GREEN  = FALSE;
-					LAMP_YELLOW = FALSE;
-					LAMP_RED 	= TRUE;
-					BUZZER  	= TRUE;
-				
-					app.plant = 0;
-					app.truck = i;
-					app.state = ACTIVE;
-					break;
-				}
+			
 			}
 			else
 				continue;
 		}
 		break;
 
-		case ACTIVE:
-			if( LinearKeyPad_getKeyState (0) == TRUE )
-			{
+		case GREEN:
+		if( LinearKeyPad_getKeyState (0) == TRUE )
+		{
+			LAMP_GREEN  = FALSE;
+	 		LAMP_YELLOW = FALSE;
+			LAMP_RED 	= FALSE;
+			BUZZER  	= FALSE;
+			app.truckFlag[app.plant][app.truck] = 	TRUE;
+			app.state = IDLE;
+		 	return;
+		}
+
+		 if( ( app.rtcValue >= ( STAGING_TIME[app.plant][app.truck] ) ) 
+					&& ( app.rtcValue < ( STAGING_TIME[app.plant][app.truck] + 600 ) ))
+		{
 				LAMP_GREEN  = FALSE;
-		 		LAMP_YELLOW = FALSE;
+				LAMP_YELLOW = TRUE;
 				LAMP_RED 	= FALSE;
 				BUZZER  	= FALSE;
-				app.truckFlag[app.plant][app.truck] = 	TRUE;
-				app.state = IDLE;
-			}
+				app.plant = 0;
+				app.truck = i;
+				app.state = YELLOW;
+			
+		}
+		break;
+			
+		case YELLOW:
+		if( LinearKeyPad_getKeyState (0) == TRUE )
+		{
+			LAMP_GREEN  = FALSE;
+	 		LAMP_YELLOW = FALSE;
+			LAMP_RED 	= FALSE;
+			BUZZER  	= FALSE;
+			app.truckFlag[app.plant][app.truck] = 	TRUE;
+			app.state = IDLE;
+			return;
+		}
+		if(( app.rtcValue >= ( STAGING_TIME[app.plant][app.truck] + 600 ) ))
+		{
+			LAMP_GREEN  = FALSE;
+			LAMP_YELLOW = FALSE;
+			LAMP_RED 	= TRUE;
+			BUZZER  	= TRUE;
+			
+			app.plant = 0;
+			app.truck = i;
+			app.state = RED;
+			
+		}
+		break;
+
+		case RED:
+		if( LinearKeyPad_getKeyState (0) == TRUE )
+		{
+			LAMP_GREEN  = FALSE;
+	 		LAMP_YELLOW = FALSE;
+			LAMP_RED 	= FALSE;
+			BUZZER  	= FALSE;
+			app.truckFlag[app.plant][app.truck] = 	TRUE;
+			app.state = IDLE;
+			return;
+		}
 		break;
 	}
 
 }
-/*
-void APP_task(void)
-{
-	UINT8 i;
-	//Read RTC data and store it in buffer
-	ReadRtcTimeAndDate(readTimeDateBuffer); 
-#if defined (RTC_DATA_ON_UART)
-				for(i = 0; i < 7; i++)			
-				{
-					txBuffer[i] = readTimeDateBuffer[i];  //store time and date 
-				}
-				
-				COM_txBuffer(txBuffer, 7);
-#endif
-		APP_conversion();
-		//calculate and store the rtc value in the form of SEC
-		app.rtcValue = (UINT32) ( ( ( app.timeBuffer[3]- '0' )* 10 )+ ( app.timeBuffer[2] - '0') )* 60 + ( ( ( app.timeBuffer[1]- '0' )* 10 )+ ( app.timeBuffer[0] - '0') ) ;
-		app.rtcValue += (UINT32) ( ( ( app.timeBuffer[5]- '0' )* 10 )+ ( app.timeBuffer[4] - '0') ) * 3600;					  
-		
-	
-	app.truckNo = APP_Truckno(app.rtcValue );
-	
 
-	if( LinearKeyPad_getKeyState (0) == TRUE )
-	{
-		LAMP_GREEN  = FALSE;
- 		LAMP_YELLOW = FALSE;
-		LAMP_RED 	= FALSE;
-		BUZZER  	= FALSE;
-		app.truckFlag[app.truckNo] = TRUE;
-	}
-	
 
-	for( i = 1 ; i < 17  ; i++)
-	{
 
-		if( ( i == app.truckNo ) && (app.truckFlag[app.truckNo -1] == FALSE) )
-		{
-			if ( ( app.rtcValue >= ( STAGING_TIME[0][i-1]  - 180) ) && ( app.rtcValue < ( STAGING_TIME[0][i-1]) ) )
-			{
-				LAMP_GREEN  = TRUE;
-				LAMP_YELLOW = FALSE;
-				LAMP_RED 	= FALSE;
-				BUZZER  	= FALSE;
-	
-			}
-			else if( ( app.rtcValue >= ( STAGING_TIME[0][i-1] ) ) && ( app.rtcValue < ( STAGING_TIME[0][i-1] + 600 ) ))
-			{
-				LAMP_GREEN  = FALSE;
-				LAMP_YELLOW = TRUE;
-				LAMP_RED 	= FALSE;
-				BUZZER  	= FALSE;
-			}
-			else if(( app.rtcValue >= ( STAGING_TIME[0][i -1] + 600 ) ))
-			{
-				LAMP_GREEN  = FALSE;
-				LAMP_YELLOW = FALSE;
-				LAMP_RED 	= TRUE;
-				BUZZER  	= TRUE;
-			}
-		}
-		else
-			continue;
-	}
 
-	for( i = 17 ; i < 23 ; i++)
-	{
-		if( ( i == app.truckNo ) && (app.truckFlag[app.truckNo - 1] == FALSE) )
-		{
-			if( ( app.rtcValue >= ( STAGING_TIME[1][i-17]  - 180) ) && ( app.rtcValue < ( STAGING_TIME[1][i-17]) ) )
-			{
-				LAMP_GREEN  = TRUE;
-				LAMP_YELLOW = FALSE;
-				LAMP_RED 	= FALSE;
-				BUZZER  	= FALSE;
-
-			}
-			else if( ( app.rtcValue >= ( STAGING_TIME[1][i-17] ) ) && ( app.rtcValue < ( STAGING_TIME[1][i-17] + 600 ) ))
-			{
-				LAMP_GREEN  = FALSE;
-				LAMP_YELLOW = TRUE;
-				LAMP_RED 	= FALSE;
-				BUZZER  	= FALSE;
-	
-			}
-			else if(( app.rtcValue >= ( STAGING_TIME[1][i-17] + 600 ) ) )
-			{
-				LAMP_GREEN  = FALSE;
-				LAMP_YELLOW = FALSE;
-				LAMP_RED 	= TRUE;
-				BUZZER  	= TRUE;
-	
-	
-			}
-		}
-		else
-			continue;
-	}
-
-}
-*/
 BOOL APP_checkPassword(UINT8 *password)
 {
 
@@ -362,51 +287,3 @@ UINT8 APP_comCallBack( far UINT8 *rxPacket, far UINT8* txCode,far UINT8** txPack
 	return length;
 
 }
-/*
-UINT8 APP_Truckno( UINT32 data)
-{
-	UINT8 i;
-	for( i = 1 ; i < 17 ; i++)
-	{
-		if( i == 16)
-		{
-	
-			if ( ( app.rtcValue >= ( STAGING_TIME[0][i-1]  - 180) ) && ( app.rtcValue <= ( STAGING_TIME[0][0]) ) )
-			{
-				return i;
-				app.plantNo = 1;
-			}
-		}
-		else
-		{
-			if ( ( app.rtcValue >= ( STAGING_TIME[0][i-1]  - 180) ) && ( app.rtcValue <= ( STAGING_TIME[0][i]) ) )
-			{
-				return i ;
-			}
-		
-		}
-	}
-
-	for( i = 1 ; i < 7 ; i++)
-	{
-		if( i == 6)
-		{
-	
-			if ( ( app.rtcValue >= ( STAGING_TIME[1][i-1]  - 180) ) && ( app.rtcValue <= ( STAGING_TIME[1][0]) ) )
-			{
-				return (i + 16);
-			}
-		}
-		else
-		{
-			if ( ( app.rtcValue >= ( STAGING_TIME[1][i-1]  - 180) ) && ( app.rtcValue <= ( STAGING_TIME[1][i]) ) )
-			{
-				return (i + 16);
-			}
-		
-		}
-	}
-
-}
-
-*/	
