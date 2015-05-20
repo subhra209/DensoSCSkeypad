@@ -1,7 +1,8 @@
 #include "app.h"
 
 
-rom static UINT24 STAGING_TIME[MAX_PLANTS][MAX_TRUCKS]={{84600,21900,23700,31800,34200,42600,44100,46200,53100,55500,57300,64200,66000,67800,75900,77700},
+rom static UINT32 STAGING_TIME[MAX_PLANTS][MAX_TRUCKS]={
+{84600,21900,23700,31800,34200,42600,44100,46200,53100,55500,57300,64200,66000,67800,75900,77700},
 													   {30000,38700,51300,62400,73800,82500}};
 /*
 *------------------------------------------------------------------------------
@@ -11,14 +12,22 @@ rom static UINT24 STAGING_TIME[MAX_PLANTS][MAX_TRUCKS]={{84600,21900,23700,31800
 UINT8 readTimeDateBuffer[6] = {0};
 UINT8 writeTimeDateBuffer[] = {0X50, 0X59, 0X00, 0X03, 0x027, 0X12, 0X13};
 
+enum 
+{
+	IDLE = 0,
+	ACTIVE = 1
+};
 
 typedef struct _APP
 {
-	UINT8 index;
+	
+	UINT8 plant;
+	UINT8 truck;
 	UINT8 entries[MAX_ENTRIES];
 	UINT8 password[5];
-	UINT24 rtcValue;
+	UINT32 rtcValue;
 	UINT8 truckFlag[MAX_PLANTS][MAX_TRUCKS];
+	UINT8 state;
 
 }APP;
 
@@ -47,89 +56,121 @@ void APP_task(void)
 {
 	UINT8 i;
 
-	//Read RTC data and store it in buffer
-	ReadRtcTimeAndDate(readTimeDateBuffer); 
+	switch(app.state)
+	{
+		case IDLE:
+		
 
-	//calculate and store the rtc value in the form of SEC
-	app.rtcValue = (UINT24)( ( readTimeDateBuffer[2] * 3600 ) +( readTimeDateBuffer[1] * 60 ) + readTimeDateBuffer[0] );
-
+		//Read RTC data and store it in buffer
+		ReadRtcTimeAndDate(readTimeDateBuffer); 
 	
-
-	if( LinearKeyPad_getKeyState (0) == TRUE )
-	{
-		LAMP_GREEN  = FALSE;
- 		LAMP_YELLOW = FALSE;
-		LAMP_RED 	= FALSE;
-		BUZZER  	= FALSE;
-	}
-
-	for( i = 0 ; i < 16 ; i++)
-	{
-
-		if( app.truckFlag[0][i]  == FALSE )
-		{
-			if ( ( app.rtcValue >= ( STAGING_TIME[0][i]  - 180) ) && ( app.rtcValue < ( STAGING_TIME[0][i]) ) )
-			{
-				LAMP_GREEN  = TRUE;
-				LAMP_YELLOW = FALSE;
-				LAMP_RED 	= FALSE;
-				BUZZER  	= FALSE;
-				break;
+		//calculate and store the rtc value in the form of SEC
+		app.rtcValue = (UINT32)( ( ((UINT32)readTimeDateBuffer[2]) * 3600 ) 
+				+( ((UINT32)readTimeDateBuffer[1]) * 60 ) + readTimeDateBuffer[0] );
 	
-			}
-			else if( ( app.rtcValue >= ( STAGING_TIME[0][i] ) ) && ( app.rtcValue < ( STAGING_TIME[0][i] + 600 ) ))
-			{
-				LAMP_GREEN  = FALSE;
-				LAMP_YELLOW = TRUE;
-				LAMP_RED 	= FALSE;
-				BUZZER  	= FALSE;
-				break;
-			}
-			else if(( app.rtcValue >= ( STAGING_TIME[0][i] + 600 ) ))
-			{
-				LAMP_GREEN  = FALSE;
-				LAMP_YELLOW = FALSE;
-				LAMP_RED 	= TRUE;
-				BUZZER  	= TRUE;
-				app.truckFlag[0][i]  = TRUE;
-				break;
-			}
-		}
-		else
-			continue;
-	}
-	for( i = 0 ; i < 6 ; i++)
-	{
-		if( app.truckFlag[1][i]  == FALSE )
+		for( i = 0 ; i < 16 ; i++)
 		{
-			if( ( app.rtcValue >= ( STAGING_TIME[1][i]  - 180) ) && ( app.rtcValue < ( STAGING_TIME[1][i]) ) )
+
+			if( app.truckFlag[0][i]  == FALSE )
 			{
-				LAMP_GREEN  = TRUE;
-				LAMP_YELLOW = FALSE;
-				LAMP_RED 	= FALSE;
-				BUZZER  	= FALSE;
-				break;
+				if ( ( app.rtcValue >= ( STAGING_TIME[0][i]  - 180) ) 
+						&& ( app.rtcValue < ( STAGING_TIME[0][i]) ) )
+				{
+					LAMP_GREEN  = TRUE;
+					LAMP_YELLOW = FALSE;
+					LAMP_RED 	= FALSE;
+					BUZZER  	= FALSE;
+					app.plant = 0;
+					app.truck = i;
+					app.state = ACTIVE;
+					break;
+		
+				}
+				else if( ( app.rtcValue >= ( STAGING_TIME[0][i] ) ) 
+						&& ( app.rtcValue < ( STAGING_TIME[0][i] + 600 ) ))
+				{
+					LAMP_GREEN  = FALSE;
+					LAMP_YELLOW = TRUE;
+					LAMP_RED 	= FALSE;
+					BUZZER  	= FALSE;
+					app.plant = 0;
+					app.truck = i;
+					app.state = ACTIVE;
+					break;
+				}
+				else if(( app.rtcValue >= ( STAGING_TIME[0][i] + 600 ) ))
+				{
+					LAMP_GREEN  = FALSE;
+					LAMP_YELLOW = FALSE;
+					LAMP_RED 	= TRUE;
+					BUZZER  	= TRUE;
+					app.truckFlag[0][i]  = TRUE;
+					app.plant = 0;
+					app.truck = i;
+					app.state = ACTIVE;
+					break;
+				}
 			}
-			else if( ( app.rtcValue >= ( STAGING_TIME[1][i] ) ) && ( app.rtcValue < ( STAGING_TIME[1][i] + 600 ) ))
-			{
-				LAMP_GREEN  = FALSE;
-				LAMP_YELLOW = TRUE;
-				LAMP_RED 	= FALSE;
-				BUZZER  	= FALSE;
-				break;
-			}
-			else if(( app.rtcValue >= ( STAGING_TIME[1][i] + 600 ) ) )
-			{
-				LAMP_GREEN  = FALSE;
-				LAMP_YELLOW = FALSE;
-				LAMP_RED 	= TRUE;
-				BUZZER  	= TRUE;
-				app.truckFlag[1][i]  = TRUE;
-				break;
-			}
+			else
+				continue;
 		}
-		else
-			continue;
+
+		for( i = 0 ; i < 6 ; i++)
+		{
+			if( app.truckFlag[1][i]  == FALSE )
+			{
+				if( ( app.rtcValue >= ( STAGING_TIME[1][i]  - 180) ) 
+							&& ( app.rtcValue < ( STAGING_TIME[1][i]) ) )
+				{
+					LAMP_GREEN  = TRUE;
+					LAMP_YELLOW = FALSE;
+					LAMP_RED 	= FALSE;
+					BUZZER  	= FALSE;
+					app.plant = 0;
+					app.truck = i;
+					app.state = ACTIVE;
+					break;
+				}
+				else if( ( app.rtcValue >= ( STAGING_TIME[1][i] ) ) 
+						&& ( app.rtcValue < ( STAGING_TIME[1][i] + 600 ) ))
+				{
+					LAMP_GREEN  = FALSE;
+					LAMP_YELLOW = TRUE;
+					LAMP_RED 	= FALSE;
+					BUZZER  	= FALSE;
+					app.plant = 0;
+					app.truck = i;
+					app.state = ACTIVE;
+					break;
+				}
+				else if(( app.rtcValue >= ( STAGING_TIME[1][i] + 600 ) ) )
+				{
+					LAMP_GREEN  = FALSE;
+					LAMP_YELLOW = FALSE;
+					LAMP_RED 	= TRUE;
+					BUZZER  	= TRUE;
+				
+					app.plant = 0;
+					app.truck = i;
+					app.state = ACTIVE;
+					break;
+				}
+			}
+			else
+				continue;
+		}
+		break;
+
+		case ACTIVE:
+			if( LinearKeyPad_getKeyState (0) == TRUE )
+			{
+				LAMP_GREEN  = FALSE;
+		 		LAMP_YELLOW = FALSE;
+				LAMP_RED 	= FALSE;
+				BUZZER  	= FALSE;
+				app.truckFlag[app.plant][app.truck] = 	TRUE;
+			}
+		break;
 	}
 
 }
