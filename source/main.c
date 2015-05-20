@@ -158,8 +158,6 @@ void main(void)
 
 	TMR0_init(tickPeriod,0);		//initialize timer0
 
-	TMR1_init(tickPeriod,0);		//initialize timer1
-
 	LCD_init();
 	LinearKeyPad_init();
 
@@ -224,7 +222,7 @@ void main(void)
 		}
 
 
-		if( appUpdateCount >= 500 )
+		if( appUpdateCount >= 5 )
 		{
 			APP_task();
 			appUpdateCount = 0;

@@ -20,7 +20,7 @@
 *	OSCILLATOR CONFIG
 *----------------------------------------*/
 
-#define SYSTEM_CLOCK			(MHz_32)	
+#define SYSTEM_CLOCK			(MHz_16)	
 
 
 /*----------------------------------------
@@ -105,7 +105,10 @@ enum
 *----------------------------------------*/
 #define MAX_ENTRIES				(30)
 //TOWER LAMP Configuration
-//#define TOWER_LAMP_TEST
+#define TOWER_LAMP_TEST
+
+#define MAX_PLANTS 2
+#define MAX_TRUCKS 22
 
 
 /*
@@ -116,7 +119,7 @@ enum
 
 enum
 {
-	MAX_INPUT_CHARS = 16,
+	MAX_INPUT_CHARS = 10,
 	MAX_OUTPUT_CHARS = 3,
 	MAX_KEY = 16,
 	MAX_CHAR_PER_KEY = 1,

@@ -11,9 +11,9 @@
 typedef struct _UI
 {
 	UI_STATE state;
-	UINT8 buffer[MAX_INPUT_CHARS+1];
+	UINT8 buffer[MAX_INPUT_CHARS];
 	UINT8 bufferIndex;
-	UINT8 input[MAX_INPUT_CHARS+1];
+	UINT8 input[MAX_INPUT_CHARS];
 	UINT8 inputIndex;
 }UI;
 
@@ -27,19 +27,16 @@ typedef struct _UI
 
 
 const rom UINT8 *UI_MSG[]=
-		{"		DENSO",
-		"PASSWORD:"
-		"SETTING:",
-		"STAGING TIME",
-		"CLOCK TIME",
+		{"     DENSO",
+		"PASSWORD:",
 		"PLANT NO:",
 		"TRUCK NO:",
 		"TIME(HHMM):"
 
 		};
 
-const rom UINT8 keyMap[MAX_KEY] = { '1','2','3','\x0A',					//	1		2		3			logon
-									 '4','5','6','\x0B',				//	4		5		6			logoff
+const rom UINT8 keyMap[MAX_KEY] = { '1','2','3','\x0A',					//	1		2		3			
+									 '4','5','6','\x0B',				//	4		5		6			
 									 '7','8','9','\x08',				//	7		8		9			backspace
 									 '*','0','#','\x0C' } ;				//	clock	0		staging		enter
 
@@ -72,7 +69,7 @@ void UI_init(void)
 	LCD_setBackSpace('\x08');	//Indicates LCD driver "\x08" is the symbol for backspace
 
 	setUImsg(UI_MSG_IDEAL);
-
+	LCD_writeCommand( DISPLAY_ON_CUR_OFF);
 	clearUIBuffer();
 	clearUIInput();
 }
@@ -106,18 +103,25 @@ void UI_task(void)
 	{
 
 		case UI_IDEAL:
-		//for pressing logon
-		if( keypressed == '\x0A')
+		//for pressing CLOCK
+		if( keypressed == '*')
 		{
+			ui.input[ui.inputIndex++] = '*';
+
+		}
+		else if( keypressed == '#')
+		{
+			ui.input[ui.inputIndex++] = '#';
+		}
+
 			//msg show password for enter password
 			setUImsg(UI_MSG_PASSWORD);
-			//clear both buffer
+			LCD_writeCommand(DISPLAY_ON_CUR_BLINK_BIG);
+			//clear UI buffer
 			clearUIBuffer();
-			clearUIInput();
 			//state change to PASSWORD
 			ui.state = UI_PASSWORD;
 			
-		}
 
 		break;
 
@@ -127,6 +131,7 @@ void UI_task(void)
 		{
 		
 				setUImsg(UI_MSG_IDEAL);
+				LCD_writeCommand( DISPLAY_ON_CUR_OFF);
 				//clear both buffer
 				clearUIBuffer();
 				clearUIInput();
@@ -146,13 +151,19 @@ void UI_task(void)
 	
 			if( result == TRUE )
 			{
-				//msg show for enter type of SETTING
-				setUImsg(UI_MSG_SETTING);
-				//clear ui_buffer
-				clearUIBuffer();
-
-				//state change to SETTING
-				ui.state = UI_SETTING;
+					if(ui.input[0] == '*')
+					{
+						setUImsg(UI_MSG_TIME);
+						clearUIBuffer();
+						ui.state = UI_TIME;
+					}
+					else if (ui.input[0] = '#')
+					{
+						setUImsg(UI_MSG_PLANT_NO);
+						clearUIBuffer();
+						//state change to PLNAT
+						ui.state = UI_PLANT;
+					}
 			}
 			else
 			{
@@ -176,52 +187,6 @@ void UI_task(void)
 			
 		break;	
 
-		case UI_SETTING:
-
-			switch(keypressed)
-			{
-				//for pressing CLOCK_SETTING
-				case '*':
-					putUImsg(UI_MSG_CLOCK_TIME);
-					ui.input[ui.inputIndex++] = '*';
-		
-				break;
-				//for pressing STAGING_SETTING
-				case '#':
-					putUImsg(UI_MSG_STAGING_TIME);
-					ui.input[ui.inputIndex++] = '#';
-	
-				break;
-				//for pressing LOGOFF
-				case '\x0B':
-					setUImsg(UI_MSG_IDEAL);
-					//clear all buffer
-					clearUIBuffer();
-					clearUIInput();
-					//state change to IDEAL
-					ui.state = UI_IDEAL;
-
-				break;
-				//for pressing ENTER
-				case '\x0C':
-					if(ui.input[0] == '*')
-					{
-						setUImsg(UI_MSG_TIME);
-						ui.state = UI_TIME;
-					}
-					else if (ui.input[0] = '#')
-					{
-						setUImsg(UI_MSG_PLANT_NO);
-						//state change to PLNAT
-						ui.state = UI_PLANT;
-					}
-				break;
-				default:
-				break;
-						
-			}
-		break;
-
 		case UI_PLANT:
 		//for pressing Backspace
 		if( keypressed == '\x08')
@@ -235,14 +200,12 @@ void UI_task(void)
 			}
 			else
 			{
-				//msg show for enter type of SETTING
-				setUImsg(UI_MSG_SETTING);
-				//clear all buffer
+				setUImsg(UI_MSG_IDEAL);
+				//clear both buffer
 				clearUIBuffer();
 				clearUIInput();
 
-				//state change to SETTING
-				ui.state = UI_SETTING;
+				ui.state = UI_IDEAL;
 			}
 
 		}
@@ -265,11 +228,12 @@ void UI_task(void)
 		else
 		{
 			//store plant value in ui_buffer
-			ui.buffer[ui.bufferIndex++] = keypressed;
+			ui.buffer[ui.bufferIndex] = keypressed;
 			//show the plant value in LCD
 			LCD_putChar(ui.buffer[ui.bufferIndex]);
 			//store plant value in input buffer
 			ui.input[ui.inputIndex++] = keypressed;
+			ui.bufferIndex++;
 
 		}
 
@@ -338,17 +302,18 @@ void UI_task(void)
 			}
 			else
 			{
+				//if it press RTC setting
 				if(ui.input[0] == '*')
 				{
-					//msg show for enter type of SETTING
-					setUImsg(UI_MSG_SETTING);
-					//clear all buffer
+					setUImsg(UI_MSG_IDEAL);
+					LCD_writeCommand( DISPLAY_ON_CUR_OFF);
+					//clear both buffer
 					clearUIBuffer();
 					clearUIInput();
 	
-					//state change to SETTING
-					ui.state = UI_SETTING;
+					ui.state = UI_IDEAL;
 				}
+				//if it press STAGING TIME setting
 				else if(ui.input[0] == '#')
 				{
 				//msg show for enter TRUCK_NO				
@@ -375,21 +340,21 @@ void UI_task(void)
 
 				}
 
-				//msg show for enter type of SETTING
-				setUImsg(UI_MSG_SETTING);
-				//clear all buffer
+				setUImsg(UI_MSG_IDEAL);
+				LCD_writeCommand( DISPLAY_ON_CUR_OFF);
+				//clear both buffer
 				clearUIBuffer();
 				clearUIInput();
 
-				//state change to SETTING
-				ui.state = UI_SETTING;
+				ui.state = UI_IDEAL;
 
 		}
 		else
 		{
-			ui.buffer[ui.bufferIndex++] = keypressed;
+			ui.buffer[ui.bufferIndex] = keypressed;
 			ui.input[ui.inputIndex++]    = keypressed;
 			LCD_putChar(ui.buffer[ui.bufferIndex]);
+			ui.bufferIndex++;
 
 		}
 
@@ -429,8 +394,8 @@ UINT8 mapKey(UINT8 scancode, UINT8 duration)
 		case UI_IDEAL:
 		keypressed = keyMap[scancode];
 		
-		//ONLY LOGON KEY IS VALID
-		if( keypressed != '\x0A') 
+		//ONLY RTC & STAGING SETTING KEY IS VALID
+		if( keypressed != '*' && keypressed != '#' ) 
 				keypressed = 0xFF;
 
 		break;
@@ -450,13 +415,6 @@ UINT8 mapKey(UINT8 scancode, UINT8 duration)
 
 		break;
 
-		case UI_SETTING:
-		keypressed = keyMap[scancode];
-
-			if((keypressed != '\x0B')&& (keypressed != '\x08') && (keypressed != '\x0C') && (keypressed != '*')  && (keypressed != '#') )
-				keypressed = 0xFF;
-		break;
-
 		case UI_PLANT:
 
 		keypressed = keyMap[scancode];
@@ -465,7 +423,7 @@ UINT8 mapKey(UINT8 scancode, UINT8 duration)
 		{
 			keypressed = 0xFF;			
 		}
-		if( ui.bufferIndex == 1)
+		else if( ui.bufferIndex == 1)
 		{
 			if((keypressed != '\x08') && (keypressed != '\x0C') )
 			keypressed = 0xFF;
