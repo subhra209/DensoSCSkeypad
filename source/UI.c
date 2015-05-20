@@ -35,6 +35,7 @@ const rom UINT8 *UI_MSG[]=
 
 		};
 
+
 const rom UINT8 keyMap[MAX_KEY] = { '1','2','3','\x0A',					//	1		2		3			
 									 '4','5','6','\x0B',				//	4		5		6			
 									 '7','8','9','\x08',				//	7		8		9			backspace
@@ -104,6 +105,7 @@ void UI_task(void)
 
 		case UI_IDEAL:
 		//for pressing CLOCK
+	
 		if( keypressed == '*')
 		{
 			ui.input[ui.inputIndex++] = '*';
@@ -620,6 +622,9 @@ void putUImsg(UINT8 msgIndex)
 		i++;
 	}
 }
+
+
+
 
 
 		

@@ -142,6 +142,8 @@ void BRD_init(void)
 	//Heart Beat
 	HEART_BEAT_DIRECTION = PORT_OUT;
 
+	SER1_TX_DIR 		=  PORT_OUT;		// Configure Serial port
+	SER1_RX_DIR 		=  PORT_IN;
 	//I2C Communication
 	I2C_SCL_DIR = PORT_OUT;
 	I2C_SDA_DIR = PORT_OUT;

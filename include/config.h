@@ -26,6 +26,9 @@
 /*----------------------------------------
 *	TIMER CONFIG
 *----------------------------------------*/
+//TIMER Configuration
+#define TIMESTAMP_DURATION 		(200)
+
 #define FULLSCALE_16BIT				(65535)
 #define TIMER0_TIMEOUT_DURATION 	(1000UL)			//1ms			
 
@@ -34,18 +37,22 @@
 *----------------------------------------*/
 #define __FACTORY_CONFIGURATION__
 
+#define DEVICE_ADDRESS			0x01
 //MMD module configuration
 #define MMD_MAX_CHARS		8
 #define MMD_MAX_SEGMENTS	4
 #define MMD_MAX_ADDRESS		128
 #define __MMD_STATIC__
 
+#define __UART_TEST__
+
 /*----------------------------------------
 *	COM module configuration
 *----------------------------------------*/
 
+#define ACTIVE_USARTS 1
 #define __BCC_XOR__
-//#define __RESPONSE_ENABLED__
+#define __RESPONSE_ENABLED__
 //#define __LOOP_BACK__
 #define BROADCAST_ADDRESS		0xFF
 #define CMD_SOP	0xAA
@@ -86,7 +93,7 @@ enum
 *----------------------------------------*/
 
 //#define TIME_DEBUG
-
+#define RTC_DATA_ON_UART
 //#define RTC_DS1307
 //#define RTC_DS3232
 
@@ -105,7 +112,7 @@ enum
 *----------------------------------------*/
 #define MAX_ENTRIES				(30)
 //TOWER LAMP Configuration
-#define TOWER_LAMP_TEST
+//#define TOWER_LAMP_TEST
 
 #define MAX_PLANTS 2
 #define MAX_TRUCKS 22

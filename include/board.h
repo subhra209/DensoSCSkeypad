@@ -58,6 +58,13 @@
 #define 	I2C_SDA_DIR 			TRISCbits.RC4
 
 
+//  UART  Association
+
+#define 	SER1_TX					PORTCbits.RC6 		// serial transmit
+#define		SER1_TX_DIR				TRISCbits.TRISC6
+#define 	SER1_RX					PORTCbits.RC7			// serial receive
+#define		SER1_RX_DIR				TRISCbits.TRISC7
+
 
 // LCD Association
 #define		LCD_DAT4_PORT			LATD

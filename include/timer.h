@@ -74,6 +74,10 @@ void TMR1_ISR(void);
 void TMR0_ISR(void);
 void TMR2_ISR(void);
 
+UINT32 GetAppTime(void);
+void ResetAppTime(void);
+
+
 #endif
 /*
 *  End of timer_driver.h

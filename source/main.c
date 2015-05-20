@@ -64,6 +64,8 @@
 #include "string.h"
 #include "ui.h"
 #include "app.h"
+#include "communication.h"
+#include "uart.h"
 
 /*
 *------------------------------------------------------------------------------
@@ -160,6 +162,7 @@ void main(void)
 
 	LCD_init();
 	LinearKeyPad_init();
+	COM_init(CMD_SOP,CMD_EOP,RESP_SOP,RESP_EOP,APP_comCallBack);
 
 #ifdef TEST_LCD
 	for(i = 0 ; i< 26; i++)
@@ -199,6 +202,9 @@ void main(void)
 	UI_init();			//MUST BE DONE AFTER IAS INIT
 
 	APP_init();
+#ifdef __UART_TEST__
+	COM_txStr("IDEONICS ANDON TERMINAL ");
+#endif	
 	EnableInterrupts();		//Interrupts initialization
 
 	//Heart Beat to blink at every 500ms
@@ -222,7 +228,7 @@ void main(void)
 		}
 
 
-		if( appUpdateCount >= 5 )
+		if( appUpdateCount >= 500 )
 		{
 			APP_task();
 			appUpdateCount = 0;

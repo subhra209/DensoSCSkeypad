@@ -15,6 +15,8 @@ UINT16 keypadUpdateCount  =0 ;
 UINT16 comUpdateCount = 0;
 UINT16 appUpdateCount = 0;
 UINT16 uiUpdateCount = 0;
+INT16 timeStampUpdateCount = TIMESTAMP_DURATION;
+UINT32 AppTimestamp = 0;
 
 /*
 *------------------------------------------------------------------------------
@@ -43,6 +45,15 @@ void TMR0_ISR(void)
 	++comUpdateCount;
 	++appUpdateCount;
 	++uiUpdateCount;
+
+	--timeStampUpdateCount;
+
+	if( timeStampUpdateCount <= 0 )
+	{
+		AppTimestamp++;
+		timeStampUpdateCount = TIMESTAMP_DURATION;
+	}
+
 	if(tmr[0].func != 0 )
 		(*(tmr[0].func))();
 
@@ -197,3 +208,21 @@ void TMR2_init(UINT8 reload , void (*func)())
 
 
 }
+UINT32 GetAppTime(void)
+{	
+	UINT32 temp;
+
+	DISABLE_TMR0_INTERRUPT();
+	temp  = AppTimestamp;
+	ENABLE_TMR0_INTERRUPT();
+	return temp;
+}
+
+void ResetAppTime(void)
+{
+	ENTER_CRITICAL_SECTION();
+	AppTimestamp = 0;
+	EXIT_CRITICAL_SECTION();
+}
+
+

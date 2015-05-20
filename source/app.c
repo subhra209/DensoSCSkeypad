@@ -11,6 +11,8 @@ rom static UINT32 STAGING_TIME[MAX_PLANTS][MAX_TRUCKS]={
 */
 UINT8 readTimeDateBuffer[6] = {0};
 UINT8 writeTimeDateBuffer[] = {0X50, 0X59, 0X00, 0X03, 0x027, 0X12, 0X13};
+UINT8 displayBuffer[6] = {0};
+void APP_conversion(void);
 
 enum 
 {
@@ -26,11 +28,13 @@ typedef struct _APP
 	UINT8 entries[MAX_ENTRIES];
 	UINT8 password[5];
 	UINT32 rtcValue;
+	UINT8 timeBuffer[6];
 	UINT8 truckFlag[MAX_PLANTS][MAX_TRUCKS];
 	UINT8 state;
 
 }APP;
 
+UINT8 txBuffer[7] = {0};
 #pragma idata APP_DATA
 APP app = {0};
 #pragma idata
@@ -51,11 +55,13 @@ void APP_init(void)
 	LAMP_RED 	= FALSE;
 	BUZZER  	= FALSE;
 	app.state = IDLE;
+	WriteRtcTimeAndDate(writeTimeDateBuffer);
 }
 
 void APP_task(void)
 {
 	UINT8 i;
+		ReadRtcTimeAndDate(readTimeDateBuffer);
 
 	switch(app.state)
 	{
@@ -64,10 +70,19 @@ void APP_task(void)
 
 		//Read RTC data and store it in buffer
 		ReadRtcTimeAndDate(readTimeDateBuffer); 
-	
+#if defined (RTC_DATA_ON_UART)
+				for(i = 0; i < 7; i++)			
+				{
+					txBuffer[i] = readTimeDateBuffer[i];  //store time and date 
+				}
+				
+				COM_txBuffer(txBuffer, 7);
+#endif
 		//calculate and store the rtc value in the form of SEC
-		app.rtcValue = (UINT32)( ( ((UINT32)readTimeDateBuffer[2]) * 3600 ) 
-				+( ((UINT32)readTimeDateBuffer[1]) * 60 ) + readTimeDateBuffer[0] );
+		app.rtcValue = (UINT32)(((	app.timeBuffer[5]- '0' )* 10 )+ ( app.timeBuffer[4] - '0') )* 3600 +
+							  (((	app.timeBuffer[3]- '0' )* 10 )+ ( app.timeBuffer[2] - '0') )* 60 +
+							  ((( app.timeBuffer[1]- '0' )* 10 )+ ( app.timeBuffer[0] - '0'));
+		
 	
 		for( i = 0 ; i < 16 ; i++)
 		{
@@ -210,3 +225,26 @@ void APP_updateRTC(far UINT8* data)
 
 	WriteRtcTimeAndDate(writeTimeDateBuffer);  //update RTC
 }
+
+void APP_conversion(void)
+{
+			
+	app.timeBuffer[0] = (readTimeDateBuffer[0] & 0X0F) + '0';        //Seconds LSB
+	app.timeBuffer[1] = ((readTimeDateBuffer[0] & 0XF0) >> 4) + '0'; //Seconds MSB
+	app.timeBuffer[2] = (readTimeDateBuffer[1] & 0X0F) + '0';        //Minute LSB
+	app.timeBuffer[3] = ((readTimeDateBuffer[1] & 0XF0) >> 4) ; 		//Minute MSB
+	app.timeBuffer[4] = (readTimeDateBuffer[2] & 0X0F) + '0';        //Minute LSB
+	app.timeBuffer[5] = ((readTimeDateBuffer[2] & 0X30) >> 4) ; 		//Minute MSB
+
+}
+
+UINT8 APP_comCallBack( far UINT8 *rxPacket, far UINT8* txCode,far UINT8** txPacket)
+{
+
+	UINT8 i;
+
+	UINT8 length = 0;
+
+	return length;
+
+}	
