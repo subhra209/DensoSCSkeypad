@@ -50,6 +50,7 @@ void APP_init(void)
 	LAMP_YELLOW = FALSE;
 	LAMP_RED 	= FALSE;
 	BUZZER  	= FALSE;
+	app.state = IDLE;
 }
 
 void APP_task(void)
@@ -169,6 +170,7 @@ void APP_task(void)
 				LAMP_RED 	= FALSE;
 				BUZZER  	= FALSE;
 				app.truckFlag[app.plant][app.truck] = 	TRUE;
+				app.state = IDLE;
 			}
 		break;
 	}
