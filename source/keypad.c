@@ -179,7 +179,6 @@ rom void KEYPAD_task(void)
     }
 	duration = 0;
 }
-//#define INPUT_SIMULATION
 
 #ifdef INPUT_SIMULATION
 
@@ -192,7 +191,7 @@ static rom UINT16 Key[][2] = {//{0x3,50},
 								{0xe,40},
 								{0x0,50},{0xd,50},{0xd,50},{0x2,50},{0xf,50},
 								{0x0,50},{0xf,50},
-								{0x0,40},{0x1,30},{0xf,50},
+								{0x6,40},{0xf,50},
 								
 								{0x1,50},{0x0,50},{0x5,50},{0x6,50},{0xf,30},
 

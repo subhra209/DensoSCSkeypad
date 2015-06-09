@@ -15,6 +15,7 @@ typedef struct _UI
 	UINT8 bufferIndex;
 	UINT8 input[MAX_INPUT_CHARS];
 	UINT8 inputIndex;
+
 }UI;
 
 
@@ -84,7 +85,6 @@ void UI_task(void)
 	UINT8 i;
 	UINT8 duration, scancode;
 	UINT8 uimsg;
-
 	//Check whether key has been pressed
 	if(KEYPAD_read(&scancode, &duration) == FALSE)	
 	{
@@ -105,17 +105,21 @@ void UI_task(void)
 
 		case UI_IDEAL:
 		//for pressing CLOCK
-	
 		if( keypressed == '*')
 		{
 			ui.input[ui.inputIndex++] = '*';
+			//msg show password for enter password
+			setUImsg(UI_MSG_PASSWORD);
+			LCD_writeCommand(DISPLAY_ON_CUR_BLINK_BIG);
+			//clear UI buffer
+			clearUIBuffer();
+			//state change to PASSWORD
+			ui.state = UI_PASSWORD;	
 
 		}
 		else if( keypressed == '#')
 		{
 			ui.input[ui.inputIndex++] = '#';
-		}
-
 			//msg show password for enter password
 			setUImsg(UI_MSG_PASSWORD);
 			LCD_writeCommand(DISPLAY_ON_CUR_BLINK_BIG);
@@ -124,6 +128,7 @@ void UI_task(void)
 			//state change to PASSWORD
 			ui.state = UI_PASSWORD;
 			
+		}
 
 		break;
 
@@ -203,6 +208,7 @@ void UI_task(void)
 			else
 			{
 				setUImsg(UI_MSG_IDEAL);
+				LCD_writeCommand( DISPLAY_ON_CUR_OFF);
 				//clear both buffer
 				clearUIBuffer();
 				clearUIInput();
@@ -307,7 +313,7 @@ void UI_task(void)
 				//if it press RTC setting
 				if(ui.input[0] == '*')
 				{
-					setUImsg(UI_MSG_IDEAL);
+				//	setUImsg(UI_MSG_IDEAL);
 					LCD_writeCommand( DISPLAY_ON_CUR_OFF);
 					//clear both buffer
 					clearUIBuffer();
@@ -624,7 +630,11 @@ void putUImsg(UINT8 msgIndex)
 }
 
 
-
-
+UINT8 UI_stateStatus(void)
+{
+	UINT8 data;
+	data = ui.state;
+	return data;
+}
 
 		

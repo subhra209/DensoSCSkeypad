@@ -2,7 +2,7 @@
 
 
 rom static UINT32 STAGING_TIME[MAX_PLANTS][MAX_TRUCKS]={
-{84600,21900,23700,31800,34200,42600,44100,46200,53100,55500,57300,64200,66000,67800,75900,77700},
+{84600,21900,23700,31800,34200,40800,44100,46200,53100,55500,57300,64200,66000,67800,75900,77700},
 													   {30000,38700,51300,62400,73800,82500}};
 /*
 *------------------------------------------------------------------------------
@@ -13,7 +13,7 @@ UINT8 readTimeDateBuffer[6] = {0};
 UINT8 writeTimeDateBuffer[] = {0X00, 0X02, 0X06, 0X03, 0x027, 0X12, 0X13};
 UINT8 displayBuffer[6] = {0};
 void APP_conversion(void);
-
+void setApptime( void );
 UINT8 APP_Truckno( UINT32 data);
 
 enum 
@@ -35,6 +35,8 @@ typedef struct _APP
 	UINT8 timeBuffer[6];
 	UINT8 truckFlag[MAX_PLANTS][MAX_TRUCKS];
 	UINT8 state;
+	UINT8 time[6];
+	UINT8 prevTime[6];
 
 
 }APP;
@@ -63,7 +65,7 @@ void APP_init(void)
 	LAMP_RED 	= FALSE;
 	BUZZER  	= FALSE;
 	app.state = IDLE;
-	
+
 	ReadRtcTimeAndDate(readTimeDateBuffer);
 
 	APP_conversion();
@@ -74,7 +76,7 @@ void APP_init(void)
 	for( i = 0 ; i < 16 ; i++)
 	{
 		if(( app.rtcValue >= ( STAGING_TIME[0][i] + 600 ) ))
-		{
+ 		{
 			app.truckFlag[0][i] = TRUE;
 		}
 	}
@@ -92,7 +94,11 @@ void APP_task(void)
 {
 	UINT8 i;
 		ReadRtcTimeAndDate(readTimeDateBuffer);	//Read RTC data and store it in buffer
+		APP_conversion();
 
+		if( UI_stateStatus() == 0x00)
+			setApptime();	
+	
 
 #if defined (RTC_DATA_ON_UART)
 				for(i = 0; i < 7; i++)			
@@ -102,7 +108,7 @@ void APP_task(void)
 				
 				COM_txBuffer(txBuffer, 7);
 #endif
-		APP_conversion();
+
 		//calculate and store the rtc value in the form of SEC
 		app.rtcValue = (UINT32) ( ( ( app.timeBuffer[3]- '0' )* 10 )+ ( app.timeBuffer[2] - '0') )* 60 
 						+ ( ( ( app.timeBuffer[1]- '0' )* 10 )+ ( app.timeBuffer[0] - '0') ) ;
@@ -148,7 +154,7 @@ void APP_task(void)
 					LAMP_YELLOW = FALSE;
 					LAMP_RED 	= FALSE;
 					BUZZER  	= FALSE;
-					app.plant = 0;
+					app.plant = 1;
 					app.truck = i;
 					app.state = GREEN;
 					break;
@@ -173,14 +179,12 @@ void APP_task(void)
 		}
 
 		 if( ( app.rtcValue >= ( STAGING_TIME[app.plant][app.truck] ) ) 
-					&& ( app.rtcValue < ( STAGING_TIME[app.plant][app.truck] + 600 ) ))
+					&& ( app.rtcValue < ( STAGING_TIME[app.plant][app.truck] + 180 ) ))
 		{
 				LAMP_GREEN  = FALSE;
 				LAMP_YELLOW = TRUE;
 				LAMP_RED 	= FALSE;
 				BUZZER  	= FALSE;
-				app.plant = 0;
-				app.truck = i;
 				app.state = YELLOW;
 			
 		}
@@ -197,15 +201,13 @@ void APP_task(void)
 			app.state = IDLE;
 			return;
 		}
-		if(( app.rtcValue >= ( STAGING_TIME[app.plant][app.truck] + 600 ) ))
+		if(( app.rtcValue >= ( STAGING_TIME[app.plant][app.truck] + 180 ) ))
 		{
 			LAMP_GREEN  = FALSE;
 			LAMP_YELLOW = FALSE;
 			LAMP_RED 	= TRUE;
 			BUZZER  	= TRUE;
 			
-			app.plant = 0;
-			app.truck = i;
 			app.state = RED;
 			
 		}
@@ -242,7 +244,7 @@ void APP_updateStaging(far UINT8* data)
 {
 	UINT24 hr;
 	UINT16 min  ;
-	UINT8 plant = data[1];
+	UINT8 plant = data[1] - '0';
 	UINT8 truck = ( ( data[2]- '0' )* 10 )+ ( data[3] - '0')  ;
 
 	hr	= (UINT24) ( ( ( data[4]- '0' )* 10 )+ ( data[5] - '0') )* 3600 ;
@@ -250,7 +252,7 @@ void APP_updateStaging(far UINT8* data)
 	hr 	= hr + (UINT24)min;
 
 
-	STAGING_TIME[plant][truck] = hr;
+	STAGING_TIME[plant -1][truck - 1] = hr;
 
 
 }
@@ -277,6 +279,11 @@ void APP_conversion(void)
 
 }
 
+void APP_updateTime(UINT8* data)
+{
+
+}
+ 
 UINT8 APP_comCallBack( far UINT8 *rxPacket, far UINT8* txCode,far UINT8** txPacket)
 {
 
@@ -285,5 +292,38 @@ UINT8 APP_comCallBack( far UINT8 *rxPacket, far UINT8* txCode,far UINT8** txPack
 	UINT8 length = 0;
 
 	return length;
+
+}
+
+void setApptime( void )
+{
+	UINT8 i;
+	UINT8 msg[] = "  DENSO : ";
+	for(i = 0 ; i < 4 ; i++)
+		{
+			app.time[i] = app.timeBuffer[5-i];
+		}
+		app.time[i] = '\0';
+
+	if( strcmp(app.time, app.prevTime) )
+	{
+		LCD_clear( );
+		i = 0;
+
+		while( msg[i] != '\0')
+		{
+			LCD_putChar(msg[i]);
+			i++;
+		}
+	
+		i = 0;
+
+		while( app.time[i] != '\0')
+		{
+			LCD_putChar(app.time[i]);
+			i++;
+		}
+		strcpy(app.prevTime, app.time);
+	}
 
 }

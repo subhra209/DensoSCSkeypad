@@ -31,4 +31,5 @@ extern const rom UINT8 *UI_MSG[];
 
 void UI_init(void);
 void UI_task(void);
+extern UINT8 UI_stateStatus(void);
 

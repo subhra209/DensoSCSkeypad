@@ -93,7 +93,7 @@ enum
 *----------------------------------------*/
 
 //#define TIME_DEBUG
-#define RTC_DATA_ON_UART
+//#define RTC_DATA_ON_UART
 //#define RTC_DS1307
 //#define RTC_DS3232
 
@@ -106,6 +106,7 @@ enum
 //KEYPAD Configuration
 #define KEYPAD_BUFFER_LENGTH 	(20)
 //#define KEYPAD_TEST
+//#define INPUT_SIMULATION
 
 /*----------------------------------------
 *	APP Configurations

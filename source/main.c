@@ -228,7 +228,7 @@ void main(void)
 		}
 
 
-		if( appUpdateCount >= 500 )
+		if( appUpdateCount >= 250 )
 		{
 			APP_task();
 			appUpdateCount = 0;

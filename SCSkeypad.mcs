@@ -2,7 +2,7 @@
 MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
 Version=1.0
 [File000]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\board.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\board.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -13,9 +13,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File001]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\config.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\config.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -26,9 +26,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File002]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\heartBeat.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\heartBeat.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -39,9 +39,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File003]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\i2c_driver.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\i2c_driver.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -52,9 +52,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File004]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\interruptvector.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\interruptvector.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -65,9 +65,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File005]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\keypad.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\keypad.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -78,9 +78,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File006]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\lcd.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\lcd.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -91,9 +91,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File007]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\linearkeypad.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\linearkeypad.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -104,9 +104,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File008]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\main.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\main.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -117,9 +117,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File009]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\math_fun.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\math_fun.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -130,9 +130,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File010]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\rtc_driver.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\rtc_driver.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -143,9 +143,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File011]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\timer.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\timer.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -156,9 +156,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File012]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\UI.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\UI.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -169,9 +169,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File013]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\app.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\app.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -182,9 +182,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File014]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\communication.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\communication.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -195,9 +195,9 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File015]
-Location=C:\Sagar\Repository\DensoSCSkeypad\obj\uart.o
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\obj\uart.o
 Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -208,22 +208,217 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
+DebugOptions=-D__DEBUG
 [File016]
-Location=C:\Sagar\Repository\DensoSCSkeypad\output\SCSkeypad.cof
-Folder=Output
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\board.o
+Folder=Intermediary
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
-LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
-LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mplink.exe
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
 PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
 SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
 SuiteArgsString=
-ToolArgsString=/o"$(BINDIR_)$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map" /W
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
 TraceCmdString=
-DebugOptions=/z__MPLAB_DEBUG=1 /z__MPLAB_DEBUGGER_PK3=1 /z__ICD2RAM=1
+DebugOptions=-D__DEBUG
 [File017]
-Location=C:\Sagar\Repository\DensoSCSkeypad\output\SCSkeypad.hex
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\config.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File018]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\heartBeat.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File019]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\i2c_driver.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File020]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\interruptvector.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File021]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\keypad.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File022]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\lcd.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File023]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\linearkeypad.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File024]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\main.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File025]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\math_fun.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File026]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\rtc_driver.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File027]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\timer.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File028]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\UI.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File029]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\app.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File030]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\communication.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File031]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\obj\uart.o
+Folder=Intermediary
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={E56A1C86-9D32-4DF6-8C34-FE0388B1B644}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=-Ou- -Ot- -Ob- -Op- -Or- -Od- -Opa-
+TraceCmdString=
+DebugOptions=-D__DEBUG
+[File032]
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\output\SCSkeypad.cof
 Folder=Output
 DeviceName=PIC18F46K22
 LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
@@ -234,7 +429,46 @@ SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c
 SuiteArgsString=
 ToolArgsString=/o"$(BINDIR_)$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map" /W
 TraceCmdString=
-DebugOptions=/z__MPLAB_DEBUG=1 /z__MPLAB_DEBUGGER_PK3=1 /z__ICD2RAM=1
+DebugOptions=/z__MPLAB_DEBUG=1
+[File033]
+Location=C:\Users\IDEONICS-BNG\Documents\GitHub\DensoSCSkeypad\output\SCSkeypad.hex
+Folder=Output
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mplink.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=/o"$(BINDIR_)$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map" /W
+TraceCmdString=
+DebugOptions=/z__MPLAB_DEBUG=1
+[File034]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\output\SCSkeypad.cof
+Folder=Output
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mplink.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=/o"$(BINDIR_)$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map" /W
+TraceCmdString=
+DebugOptions=/z__MPLAB_DEBUG=1
+[File035]
+Location=C:\Users\IDEONICS-BNG\Desktop\subhra\work on progress\DensoSCSkeypad\output\SCSkeypad.hex
+Folder=Output
+DeviceName=PIC18F46K22
+LanguageToolSuiteID={5B7D72DD-9861-47BD-9F60-2BE967BF8416}
+LanguageToolID={96C98149-AA1B-4CF9-B967-FAE79CAB663C}
+LanguageToolLocation=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mplink.exe
+PPAD=$(BINDIR)|output||$(TMPDIR)|obj||$(AINDIR)||$(INCDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\h;include||$(LIBDIR)|C:\Program Files (x86)\Microchip\mplabc18\v3.46\lib||$(LKRDIR)||
+SOLK=<src>|source\board.c|source\config.c|source\heartBeat.c|source\i2c_driver.c|source\interruptvector.c|source\keypad.c|source\lcd.c|source\linearkeypad.c|source\main.c|source\math_fun.c|source\rtc_driver.c|source\timer.c|source\UI.c|source\app.c|source\communication.c|source\uart.c||<obj>||<lib>||<lkr>|18f46k22_g.lkr||
+SuiteArgsString=
+ToolArgsString=/o"$(BINDIR_)$(TARGETBASE).cof" /M"$(BINDIR_)$(TARGETBASE).map" /W
+TraceCmdString=
+DebugOptions=/z__MPLAB_DEBUG=1
 [TOOL_LOC_STAMPS]
 tool_loc{96C98149-AA1B-4CF9-B967-FAE79CAB663C}=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mplink.exe
 tool_loc{E56A1C86-9D32-4DF6-8C34-FE0388B1B644}=C:\Program Files (x86)\Microchip\mplabc18\v3.46\bin\mcc18.exe
