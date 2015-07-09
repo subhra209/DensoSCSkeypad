@@ -106,7 +106,7 @@ enum
 //KEYPAD Configuration
 #define KEYPAD_BUFFER_LENGTH 	(20)
 //#define KEYPAD_TEST
-//#define INPUT_SIMULATION
+#define INPUT_SIMULATION
 
 /*----------------------------------------
 *	APP Configurations
@@ -118,6 +118,7 @@ enum
 #define MAX_PLANTS 2
 #define MAX_TRUCKS 22
 
+#define TRUCK_TIME_UPDATE		0x00
 
 /*
 *------------------------------------------------------------------------------

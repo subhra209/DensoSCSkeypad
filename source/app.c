@@ -1,9 +1,6 @@
 #include "app.h"
 
 
-rom static UINT32 STAGING_TIME[MAX_PLANTS][MAX_TRUCKS]={
-{84600,21900,23700,31800,34200,40800,44100,46200,53100,55500,57300,64200,66000,67800,75900,77700},
-													   {30000,38700,51300,62400,73800,82500}};
 /*
 *------------------------------------------------------------------------------
 * Private Functions	Prototypes
@@ -15,6 +12,7 @@ UINT8 displayBuffer[6] = {0};
 void APP_conversion(void);
 void setApptime( void );
 UINT8 APP_Truckno( UINT32 data);
+void updateTruckTime(UINT8 plant,UINT8 truck, UINT32 hr);
 
 enum 
 {
@@ -46,6 +44,11 @@ typedef struct _APP
 UINT8 txBuffer[7] = {0};
 #pragma idata APP_DATA
 APP app = {0};
+
+UINT32 STAGING_TIME[MAX_PLANTS][MAX_TRUCKS]={
+{84600,21900,23700,31800,34200,40800,44100,46200,53100,55500,57300,64200,66000,67800,75900,77700},
+													   {30000,38700,51300,62400,73800,82500}};
+
 #pragma idata
 
 
@@ -53,12 +56,49 @@ APP app = {0};
 void APP_init(void)
 {
 
-	UINT8 i;
+	UINT8 i , j , k;
+	UINT8 temp[4] = {0};
+	UINT32 time = 0;
 	app.password[0] = '1';
 	app.password[1] = '0';
 	app.password[2] = '0';
 	app.password[3] = '3';
 	app.password[4] = '\0';
+
+	for(i = 0 ; i < 22 ; i++)
+	{
+		for( j = 0; j < 4 ; j++)
+		{
+			temp[j] = (UINT32)Read_b_eep( (i*4) + j );	
+			Busy_eep();
+		}
+		for( k = 0; k < 4 ; k++)
+		{
+			time <<= 8 ;
+			time |= temp[k];
+	
+		}
+
+		STAGING_TIME[0][i] = time;
+		
+	}
+	for(i = 0 ; i < 6 ; i++)
+	{
+		for( j = 0; j < 4 ; j++)
+		{
+			temp [j] = (UINT32)Read_b_eep( ( (22 * 4) +(i*4)) + j );	
+			Busy_eep();
+		}
+		for( k = 0; k < 4 ; k++)
+		{
+			time <<= 8 ;
+			time |= temp[k];	
+	
+		}
+		STAGING_TIME[1][i] = time;
+		
+	}
+
 
 	LAMP_GREEN  = FALSE;
 	LAMP_YELLOW = FALSE;
@@ -240,24 +280,6 @@ BOOL APP_checkPassword(UINT8 *password)
 	return TRUE;
 }
 
-void APP_updateStaging(far UINT8* data)
-{
-	UINT24 hr;
-	UINT16 min  ;
-	UINT8 plant = data[1] - '0';
-	UINT8 truck = ( ( data[2]- '0' )* 10 )+ ( data[3] - '0')  ;
-
-	hr	= (UINT24) ( ( ( data[4]- '0' )* 10 )+ ( data[5] - '0') )* 3600 ;
-	min = (UINT16)  ( ( ( data[6]- '0' )* 10 )+ ( data[7] - '0') )* 60;
-	hr 	= hr + (UINT24)min;
-
-
-	STAGING_TIME[plant -1][truck - 1] = hr;
-
-
-}
-
-
 void APP_updateRTC(far UINT8* data)
 {
 	writeTimeDateBuffer[0] = 0;
@@ -325,5 +347,83 @@ void setApptime( void )
 		}
 		strcpy(app.prevTime, app.time);
 	}
+
+}
+
+void APP_updateStaging(far UINT8* data)
+{
+
+	UINT24 hr;
+	UINT16 min  ;
+	UINT8 plant = data[1] - '0';
+	UINT8 truck = ( ( data[2]- '0' )* 10 )+ ( data[3] - '0')  ;
+
+	hr	= (UINT24) ( ( ( data[4]- '0' )* 10 )+ ( data[5] - '0') )* 3600 ;
+	min = (UINT16)  ( ( ( data[6]- '0' )* 10 )+ ( data[7] - '0') )* 60;
+	hr 	= hr + (UINT24)min;
+	
+	updateTruckTime(plant,truck,hr);
+
+
+}
+
+void updateTruckTime(UINT8 plant,UINT8 truck, UINT32 hr)
+{
+
+	UINT8 i;
+	UINT8* temp;
+	UINT8 temp1[4] = {0};
+	UINT32 time  = 0;
+	UINT8 index = (truck - 1) * 4 ;
+
+	temp = (UINT8 *)&hr;
+
+
+
+	if( plant == 1)
+	{
+		for( i = 0; i < 4 ; i++)
+		{
+			Write_b_eep(index + i , *(temp + (3 -i) ) );	
+			Busy_eep();
+		}
+	}
+	else if(plant == 2)
+	{
+		for( i = 0; i < 4 ; i++)
+		{
+			Write_b_eep( ((22 *4)+index ) + i , *(temp + (3 -i) ) );	
+			Busy_eep();
+		}
+	}
+
+	if( plant == 1)
+	{
+		for( i = 0; i < 4 ; i++)
+		{
+			temp1[i] = Read_b_eep(index + i  );
+			Busy_eep();	
+
+		}
+	}
+	else if(plant == 2)
+	{
+		for( i = 0; i < 4 ; i++)
+		{
+			temp1[i] = Read_b_eep( (22*4 +index )+ i  );
+			Busy_eep();
+
+		}
+	}
+
+	for( i = 0; i < 4 ; i++)
+	{
+		time <<= 8 ;
+		time |= temp1[i];
+	
+
+	}
+
+	STAGING_TIME[plant - 1][truck - 1]  = time ;
 
 }

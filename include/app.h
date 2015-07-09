@@ -5,7 +5,7 @@
 #include <string.h>
 #include "communication.h"
 #include "ui.h"
-
+#include "eep.h"
 extern void APP_init(void);
 extern void APP_task(void);
 
